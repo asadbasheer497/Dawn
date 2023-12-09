@@ -1,0 +1,105 @@
+<style>
+  .upselling-main {
+    display: flex;
+}
+</style>
+<div class="section-{{ section.id }}">
+   <button class="get-data" onclick="getData()">Get Data</button>
+  <div class="fetch-data">
+    <button onclick="addToCart('46623534383423', 1)">Add to Cart</button>
+
+    
+     
+   
+  </div>
+</div>
+ <script>
+  function addToCart(productId, quantity) {
+  const cartEndpoint = '/cart/add.js'; // Shopify cart endpoint
+  const data = {
+    items: [
+      {
+        id: productId,
+        quantity: quantity
+      }
+    ]
+  };
+
+  fetch(cartEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    // update card drawer
+      var mydiv = document.getElementById("CartDrawer");
+      fetch(window.location.href)
+        .then(response => response.text())
+        .then(data => {
+          var tempDiv = document.createElement("div");
+          tempDiv.innerHTML = data;
+          var updatedContent = tempDiv.querySelector("#CartDrawer").innerHTML;
+          mydiv.innerHTML = updatedContent;
+        })
+        .catch(error => {
+          console.error("Error fetching content:", error);
+        });
+    console.log('Product added to cart:', data);
+  })
+  .catch(error => {
+    // Handle errors here, e.g., display an error message.
+    console.error('Error adding product to cart:', error);
+  });
+}
+   
+       document.addEventListener("DOMContentLoaded", function() {
+        // var upsellingHTML = `
+        //             <div class='upselling-main'>
+        //               <div class='upselling_feature_image'>{{ settings.upselling-produt-1.featured_image | image_url: width: 100| image_tag: loading: 'lazy', sizes: sizes, widths: widths }}</div>
+        //               <div class='upselling-content'>
+        //                   <h3 class='upseling-title'>{{ settings.upselling-produt-1.title }}</h3>
+        //                   <div class='upselling-price'>
+        //                       <span class='upselling-compared-price'>{%- render 'price',
+        //                               product: settings.upselling-produt-1,
+        //                               use_variant: true,
+        //                               show_badges: true,
+        //                               price_class: 'price--large'
+        //                             -%}</span>
+        //                       <span class='upselling-sale-price'></span>   
+        //                   </div>
+        //                   <div class='upselling-add-to-card'>
+        //                       <button class='add-to-card-btn' onclick="addToCart('{{ settings.upselling-produt-1.selected_or_first_available_variant.id }}', 1)">Add to Card</button>
+        //                   </div>
+        //               </div>
+        //             </div>
+        //             `;
+          console.log(upsellingHTML);
+          var targetElement = document.querySelector('.cart__contents');
+          targetElement.insertAdjacentHTML('afterend', upsellingHTML);
+         
+        // });
+        
+      });
+  </script>
+{% schema %}
+  {
+    "name": "Fetch Data",
+    "settings": [
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Select URL"
+      }
+    ],
+    "presets":[
+      {
+        "name": "Fetch Data"
+      }
+    ]
+  }
+{% endschema %}
+

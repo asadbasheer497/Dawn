@@ -1,0 +1,457 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+
+<style>
+  /* .slick-list {
+    position: absolute !important;
+} */
+   /* .main_image_container.slick-initialized.slick-slider.active_main__container .slick-list.draggable {
+    position: inherit
+
+} */
+  .slick-next, .slick-prev {
+    position: sticky !important;
+  
+} 
+  body{
+    margin:0;
+  }
+  .main_image_container .slick-prev {
+    left: 0;
+}
+ .main_image_container .slick-next.slick-arrow {
+   left: 95.5%;
+ }
+   .main_image_container .slick-prev, .main_image_container .slick-next{
+   z-index:1;
+     /* position:sticky;
+     top:50% !important; */
+   }
+  .main_image_container .slick-next:before, .main_image_container .slick-prev:before {
+    font-size: 60px;
+}
+.thumbnail_gallery .slick-track {
+    width: 100% !important;
+  transform: initial !important;
+}
+    .thumbnail_gallery img, .main_image_container img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+        aspect-ratio: 1/1;
+    }
+    .thumbnail_gallery, .main_image_container{
+      display:flex;
+      gap:20px;
+      flex-wrap: wrap;
+    }
+    .thumbnail_gallery_inner{
+width: calc(25% - 12px) !important;
+    padding: 12px;
+    cursor: pointer;
+    aspect-ratio: 1/1;
+    }
+    .main_image_container {
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      z-index: 11;
+      background: black;
+          overflow-y: auto;
+          /* overflow-x: hidden; */
+      opacity:0;
+      visibility:hidden;
+    }
+  .active_main__container{
+     opacity:1;
+      visibility:visible;
+  }
+ .main_image_container_inner {
+    width: 80%;
+    margin: 0 auto;
+       margin-bottom: 30px;
+       margin-top: 50px;
+}
+  .main_light_box{
+    position:relative;
+  }
+  
+  button.atcive_btn{
+    opacity:1;
+  }
+  button.close_button:hover{
+     background: white;
+  }
+  .close_button svg {
+    width:25px;
+    height:25px;
+  }
+  .custom-prev-main.slick-slide button svg, custom-next-main button svg{
+    width: 25px;
+    height: 25px;
+}
+  @media screen and (max-width:768px){
+    .main_image_container .slick-next.slick-arrow {
+    left: 90%;
+}
+     .main_image_container .slick-next:before, .main_image_container .slick-prev:before {
+    font-size: 40px;
+}
+     .close_button svg {
+    width:15px;
+    height:15px;
+  }
+    .thumbnail_gallery_inner {
+    padding: 3px;
+width: calc(50% - 3px) !important;
+      
+}
+    .main_image_container_inner {
+    width: 70%;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+  }
+
+  
+  </style>
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+  <div class="section-{{ section.id }}-padding">
+  <div class="main_light_box">
+  <div class="thumbnail_gallery page-width">
+    {% for block in section.blocks %}
+      <div class="thumbnail_gallery_inner">
+      {% if block.settings.image_thumb !=blank %}
+                      {{ block.settings.image_thumb | image_url: width: 3400 | image_tag:
+                        loading: 'lazy',
+                        class: 'image_thumb',
+                        sizes: sizes,
+                        data-custom: 'my-custom-attr',
+                        widths: '165, 360, 535, 750, 1100, 1500',
+                        is: 'lazy-image'
+                        }}
+                  {% endif %}
+      </div>
+      {% endfor %}
+  </div>
+    <button class="close_button">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 320.591 320.591" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z" fill="#000000" opacity="1" data-original="#000000" class=""></path><path d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></svg>
+      </button>
+  <div class="main_image_container">
+    {% for block in section.blocks %}
+    <div class="main_all_wrapper">
+  
+     {% if block.settings.image_thumb !=blank %} 
+  <div class="main_image_container_inner">
+      
+    
+                      {{ block.settings.image_thumb | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_thumb',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+                
+  </div>
+         {% endif %}
+    {% if block.settings.image_main2 !=blank %}
+      
+    <div class="main_image_container_inner">
+                      {{ block.settings.image_main2 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main2',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+    {% if block.settings.image_main3 !=blank %}
+      
+    <div class="main_image_container_inner">
+                      {{ block.settings.image_main3 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main3',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+    {% if block.settings.image_main4 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main4 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main4',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+    {% if block.settings.image_main5 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main5 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main5',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+       {% if block.settings.image_main6 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main6 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main6',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+       {% if block.settings.image_main7 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main7 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main7',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+       {% if block.settings.image_main8 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main8 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main8',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+       {% if block.settings.image_main9 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main9 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main9',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+       {% if block.settings.image_main10 !=blank %}
+      
+      <div class="main_image_container_inner">
+                      {{ block.settings.image_main10 | image_url: width: 3400 | image_tag:
+                                      loading: 'lazy',
+                                      class: 'image_main10',
+                                      sizes: sizes,
+                                      data-custom: 'my-custom-attr',
+                                      widths: '165, 360, 535, 750, 1100, 1500',
+                                      is: 'lazy-image'
+                                      }}
+  </div>
+                  {% endif %}
+
+      </div>
+      {% endfor %}
+  </div>
+  </div>
+    </div>
+<script>
+// $(document).ready(function() {
+//    console.log('running');
+//   var newElement = $('<button class="slick-next slick-arrow" aria-label="Next" type="button" style="" aria-disabled="false">Next</button>');
+
+//   // Select the target element where you want to append the new element
+//   var targetElement = $('.slick-list.draggable');
+
+//   // Use the .append() method to add the new element to the target element
+//   newElement.insertBefore(targetElement);
+// });
+
+  const thumbnailGalleryInnerList = document.querySelectorAll('.thumbnail_gallery_inner');
+  const mainImageContainer = document.querySelector('.main_image_container');
+
+  thumbnailGalleryInnerList.forEach(function (thumbnailGalleryInner) {
+    thumbnailGalleryInner.addEventListener('click', function () {
+      const clickedImageSrc = thumbnailGalleryInner.querySelector('img').src;
+  console.log(clickedImageSrc)
+
+      const mainImage = mainImageContainer.querySelector('.main_image_container_inner img');
+      if (mainImage) {
+        mainImage.src = clickedImageSrc;
+      }
+
+      if (!mainImageContainer.classList.contains('active_main__container')) {
+        mainImageContainer.classList.add('active_main__container');
+const closeButton = document.querySelector('.close_button');
+        closeButton.classList.add("atcive_btn")
+      }
+    });
+  });
+  
+const closeButton = document.querySelector('.close_button');
+
+closeButton.addEventListener('click', function () {
+    const mainImageContainer = closeButton.nextElementSibling;
+
+    if (mainImageContainer) {
+        mainImageContainer.classList.remove('active_main__container');
+      closeButton.classList.remove("atcive_btn")
+    }
+});
+
+   $('.main_image_container').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: true,
+  fade: true,
+  infinite:false,
+  asNavFor: '.thumbnail_gallery'
+});
+$('.thumbnail_gallery').slick({
+  slidesToShow: 2,
+  slidesToScroll: 1,
+  asNavFor: '.main_image_container',
+  dots: false,
+   arrows: false,
+  infinite:false,
+  focusOnSelect: true
+});
+
+</script>
+
+  {% schema %}
+    {
+      "name": "lightbox-gallery",
+      "settings": [
+         {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+      ],
+      "blocks":[
+        
+        {
+          "type":"lightbox",
+          "name":"lightbox",
+          "settings":[
+            
+            {
+              "type":"image_picker",
+              "id":"image_thumb",
+              "label":"Image"
+            },
+            {
+              "type":"image_picker",
+              "id":"image_main2",
+              "label":"Image 1"
+            },
+            {
+              "type":"image_picker",
+              "id":"image_main3",
+              "label":"Image 2"
+            },
+            {
+              "type":"image_picker",
+              "id":"image_main4",
+              "label":"Image3"
+            },
+            {
+              "type":"image_picker",
+              "id":"image_main5",
+              "label":"Image 4"
+            },
+                        {
+              "type":"image_picker",
+              "id":"image_main6",
+              "label":"Image 5"
+            },
+                        {
+              "type":"image_picker",
+              "id":"image_main7",
+              "label":"Image 6"
+            },
+                        {
+              "type":"image_picker",
+              "id":"image_main8",
+              "label":"Image 7"
+            },
+                        {
+              "type":"image_picker",
+              "id":"image_main9",
+              "label":"Image 8"
+            },
+                        {
+              "type":"image_picker",
+              "id":"image_main10",
+              "label":"Image 9"
+            }
+           
+          ]
+        }
+      ],
+      "presets":[
+        {
+          "name":"lightbox-gallery"
+        }
+      ]
+    }
+  {% endschema %}

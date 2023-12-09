@@ -1,0 +1,98 @@
+<style>
+  ul#Slider-{{ section.id }} {
+      display: flex;
+    flex-wrap: wrap;
+      list-style: none;
+  }
+   ul#Slider-{{ section.id }} li{
+     width: 100% ;
+     padding: 0px 10px;
+     box-sizing: border-box;
+   }
+  @media screen and (min-width: 768.5px){
+     ul#Slider-{{ section.id }} li{
+     width: {{  100 | divided_by: section.settings.columns_count }}% ;
+    
+  }
+</style>
+
+<div class="section-{{ section.id }}">
+count are{{ section.settings.columns_count }}
+  <div class="cusom-collection-micn-con">
+      <ul
+        class="custom-collection-list"
+        id="Slider-{{ section.id }}"
+        role="list"
+      >
+        {%- liquid
+          assign columns = section.blocks.size
+          if columns > 3
+            assign columns = 3
+          endif
+        -%}
+        {%- for block in section.blocks -%}
+          {% for product in block.settings.collection.products %}
+            {{ product.title }}
+            <br>
+            <br>
+            <br>
+            {% endfor %}
+          <li>
+            {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+            {%- assign placeholder_image = 'collection-apparel-' | append: placeholder_image_index -%}
+          {{ block.settings.collection.title }}
+          {{ block.settings.collection.url }}
+            {% render 'card-collection',
+              card_collection: block.settings.collection,
+              placeholder_image: placeholder_image
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Custom collection",
+  "class": "custom-collection",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns_count",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Number of columns on desktop",
+      "default": 2
+      }
+  ],
+  "blocks": [
+     {
+       "name": "Custom collection",
+       "type": "collection",
+       "settings": [
+         {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+       ]
+     }
+   ],
+  "presets": [
+    {
+      "name": "Custom collection",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+        
+      ]
+    }
+  ]
+}
+{% endschema %}

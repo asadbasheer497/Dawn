@@ -1,0 +1,164 @@
+{% comment %} using html  {% endcomment %}
+<div data-test="true" data-collection="blankets" class="data_collections" role="hidden" data-limit="9"></div>
+ 
+ <!-- domcontentloaded  -->
+ document.addEventListener("DOMContentLoaded", function() {
+    
+
+
+    var targetClassName = "data_collections";
+var elementsWithClass = document.querySelectorAll("." + targetClassName);
+
+if (elementsWithClass.length > 1) {
+    elementsWithClass.forEach(function (collection_con, index) {
+        const collectionHandle = collection_con.getAttribute('data-collection');
+        const productLimit = collection_con.getAttribute('data-limit'); // Fix: use 'getAttribute' on 'collection_con'
+        var shopifyStoreUrl = window.location.protocol + '//' + window.location.hostname;
+        const url = shopifyStoreUrl + "/collections/" + collectionHandle;
+
+        fetch(url).then(function (response) {
+            return response.text();
+        }).then(function (html) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(html, "text/html");
+            var html = doc.querySelector('html');
+            var collectionMainCon = doc.querySelector('.collection');
+            // remove and add classes to apply the swiper slider
+            collectionMainCon.classList.add('myswiper');
+            collectionMainCon.classList.remove('page-width');
+            var mainContent = html.querySelector('#MainContent');
+            mainContent.querySelector('.collection-hero').remove();
+            mainContent.querySelector('.facets-container').remove();
+            var ulElement = html.querySelector('#product-grid');
+            ulElement.classList.add('swiper-wrapper');
+            ulElement.classList.add('blog_page_swiper-wrapper');
+            ulElement.classList.remove('grid');
+            // appen navigations arrow of swiper
+            var navigationArrows = `<div class="swiper-button-next"> </div><div class="swiper-button-prev"> `;
+            ulElement.insertAdjacentHTML('afterend', navigationArrows);
+            if (ulElement) {
+                var liElements = Array.from(ulElement.getElementsByTagName('li')).slice(0, productLimit);
+                ulElement.innerHTML = '';
+                liElements.forEach(function (liElement, index) {
+                    var addToCartButton = liElement.querySelector('button');
+                    addToCartButton.textContent = 'Choose options';
+                    var quickAddCon = liElement.querySelector('.quick-add');
+                    // wrap button with anchor
+                    if (addToCartButton) {
+                        var anchorTag = document.createElement('a');
+                        anchorTag.href = addToCartButton.getAttribute('data-product-url');
+                        anchorTag.appendChild(addToCartButton.cloneNode(true));
+                        quickAddCon.innerHTML = anchorTag.outerHTML;
+                        anchorTag.classList.add('add-to-cart-anchor');
+                    }
+
+                    liElement.classList.remove('grid__item');
+                    liElement.classList.add('swiper-slide');
+                    ulElement.appendChild(liElement.cloneNode(true));
+                });
+
+                elementsWithClass[index].insertAdjacentHTML('afterend', mainContent.outerHTML);
+                var mySwiper = new Swiper('.myswiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        navigation: {
+                          nextEl: '.swiper-button-next',
+                          prevEl: '.swiper-button-prev',
+                        },
+                         pagination: {
+                          el: '.swiper-pagination',
+                          clickable: true,
+                        },
+                        breakpoints: {
+                          450: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                          },
+                          1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                          },
+                        },
+                      });
+
+
+            }
+        }).catch(function (err) {});
+    });
+}
+else{
+              var elementsWithClass = document.querySelector(".data_collections");
+              const collectionHandle = elementsWithClass.getAttribute('data-collection');
+              const product_limit = elementsWithClass.getAttribute('data-limit');
+              var shopifyStoreUrl = window.location.protocol + '//' + window.location.hostname;
+              const url = shopifyStoreUrl + "/collections/" + collectionHandle;
+
+              fetch(url).then(function(response) {
+                  return response.text();
+                }).then(function(html) {
+              console.log('working');
+                  var parser = new DOMParser();
+                  var doc = parser.parseFromString(html, "text/html");
+                  var html = doc.querySelector('html');
+                  var collection_main_con = doc.querySelector('.collection');
+                  collection_main_con.classList.add('myswiper');
+                  collection_main_con.classList.remove('page-width');
+                  var main_content = html.querySelector('#MainContent');
+                   main_content.querySelector('.collection-hero').remove();
+                   main_content.querySelector('.facets-container').remove();
+                  var ulElement = html.querySelector('#product-grid');
+                  ulElement.classList.add('swiper-wrapper');
+                  ulElement.classList.add('blog_page_swiper-wrapper');
+                  ulElement.classList.remove('grid');
+                  var navigation_arrows = `<div class="swiper-button-next"> </div><div class="swiper-button-prev"> </div>`;
+                  ulElement.insertAdjacentHTML('afterend', navigation_arrows);
+                  if (ulElement) {
+                     var liElements = Array.from(ulElement.getElementsByTagName('li')).slice(0, product_limit);
+                     ulElement.innerHTML = '';
+                       liElements.forEach(function (liElement, index) {
+                          var add_to_card_button = liElement.querySelector('button');
+                           add_to_card_button.textContent = 'Choose options';
+                          var quick_add_con = liElement.querySelector('.quick-add');
+                        // wrap button with anchor
+                         if (add_to_card_button) {
+                          var anchorTag = document.createElement('a');
+                          anchorTag.href = add_to_card_button.getAttribute('data-product-url');
+                          anchorTag.appendChild(add_to_card_button.cloneNode(true));
+                          quick_add_con.innerHTML = anchorTag.outerHTML;
+                          anchorTag.classList.add('add-to-cart-anchor');
+                        }
+                    
+                        liElement.classList.remove('grid__item');
+                        liElement.classList.add('swiper-slide');
+                        ulElement.appendChild(liElement.cloneNode(true));
+                      });
+              
+                    elementsWithClass.insertAdjacentHTML('afterend', main_content.outerHTML);
+                    var mySwiper = new Swiper('.myswiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        navigation: {
+                          nextEl: '.swiper-button-next',
+                          prevEl: '.swiper-button-prev',
+                        },
+                        breakpoints: {
+                          450: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                          },
+                          1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                          },
+                        },
+                      });
+
+                  }
+                })
+                .catch(function(err) {});  
+         }
+    
+}
+
+
+});

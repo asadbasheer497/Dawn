@@ -1,0 +1,77 @@
+<div class="product-info-mian">
+  <div class="proiduct-media"></div>
+  <div class="product--info">
+    <div class="product-variants">
+      <noscript class="product-json-noscript">{{ product | json }}</noscript>
+      {% for option in product.options_with_values %}
+        <div class="product-main-con">
+          <label class="option_name">{{ option.name }}</label>
+           <select class="single_main_con">
+          {% for single in option.values %}
+              <option class="single_variatn" value{{ single }}>{{ single }}</option>
+          {% endfor %}
+        </select>
+        </div>
+      {% endfor %}
+    </div>
+    <button class="add-to-cart">Add to cart</button>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded",function(){
+    document.querySelector('.add-to-cart').addEventListener("click",function(element){
+      var items = Array.from(document.querySelectorAll('.single_main_con'),(select) => select.value);
+      var product_json = JSON.parse(this.closest('.product--info').querySelector('noscript').textContent);
+      // var selected_vairant = product_json.variants.find((vairant) =>{
+      //   console.log(vairant);
+      //   var single__variant = vairant.options.every(function(option, index){
+      //     return options[index] === option;
+      //               // console.log('option: '+options[index]);
+      //     // console.log('index: '+index);
+      //   });
+
+      // });
+      var selected_variant = product_json.variants.find((variant) => {
+  // Log the entire variant for debugging purposes
+  console.log('Variant:', variant);
+
+  // Check if all options of the current variant match the external options array
+  var single_variant = variant.options.every(function(option, index) {
+    console.log('items index: '+items[index]);
+    console.log('option: '+option);
+    return items[index] === option;
+  });
+
+  // Log whether the current variant meets the condition
+  console.log('Single Variant Match:', single_variant);
+
+  // Return the result to the find method
+  return single_variant;
+});
+
+// Access the selected variant
+console.log('Selected Variant:', selected_variant);
+
+      // single__variant();
+    });
+    
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Custom product info",
+    "settings": [],
+    "presets": [
+      {
+        "name":"Custom product info"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,14 @@
+<div class="shopify-input-col">
+    <div class="shopify-input-featured-image artice-featured-image">
+      {% if article_card.image != blank %}
+          {{  article_card.image| image_url: width: 1500 | image_tag: loading: 'lazy', sizes: sizes, widths: widths }}
+      {% else %}
+          {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+    <div class="article-content">
+      <h3>{% if article_card.title != blank %}{{ article_card.title }}{% else %} Article Title {% endif %}</h3>
+      <p>{% if article_card.content != blank %}{{ article_card.content }}{% else %} Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis fermentum dolor, nec lobortis erat condimentum id. Cras congue vel lectus a rhoncus. Proin velit quam, iaculis ut hendrerit at, dapibus eget elit. Nullam finibus eget dolor vel hendrerit. Integer ut hendrerit est. Nunc in lorem eu metus vulputate blandit {% endif %}</p>
+       <button class="article__url"><a href="{% if article_card.url !=blank %}{{ article_card.url }}{% else %}#{% endif %}">Read More</a></button>
+    </div>
+</div>

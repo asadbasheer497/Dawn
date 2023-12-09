@@ -1,0 +1,85 @@
+<style>
+.main-container{
+  dicplay:flex;
+  align-items:center;
+}
+
+
+  
+</style>
+
+<div class="main-container">
+  <div class="first-container">
+    {% if section.settings.image !=blank %}
+    {{ section.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', sizes: sizes, widths: widths }}
+      {% endif %}
+  </div>
+
+    <div class="second-container">
+        {% for block in section.blocks %}
+    {% case block.type %}
+      <div class="heading">
+        {{ block.settings.heading }}
+      </div>
+
+      <div class="description">
+        {{ block.settings.description }}
+      </div>
+<div class="button-container">
+      {{ block.settings.button-url }} {{ block.settings.button-link }}
+</div>
+        {% endcase %}
+  {% endfor %}
+    </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "condation image condation",
+  "settings": [
+
+         {
+        "type":"image_picker",
+        "id":"image",
+        "label":"Image"
+      }
+  ],
+
+    "blocks":[
+
+    {
+      "type": "heading",
+      "name": "content",
+      "settings": [
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Heading"
+      },
+        {
+        "type":"inline_richtext",
+        "id":"description",
+        "label":"Description"
+      },
+         {
+        "type":"url",
+        "id":"button-url",
+        "label":"Button Url"
+      },
+         {
+        "type":"text",
+        "id":"button-link",
+        "label":"Button Link"
+      }
+      ]
+    }
+    ],
+
+  "presets":[
+    {
+      "name":"condation image condation"
+    }
+  ]
+}
+{% endschema %}

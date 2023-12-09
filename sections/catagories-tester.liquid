@@ -1,0 +1,27 @@
+
+
+{% assign category_to_filter = "Headphones" %}
+
+
+{% for product in products %}
+  <div class="product">
+    <h2>{{ product.title }}</h2>
+    <p>{{ product.description }}</p>
+    <!-- Add more product details as needed -->
+  </div>
+{% endfor %}
+
+
+{% schema %}
+  {
+    "name": "Catagories Tester",
+    "settings": [],
+    "presets":[
+      {  
+       "name": "Catagories Tester"
+      }
+    ]
+    
+  }
+{% endschema %}
+

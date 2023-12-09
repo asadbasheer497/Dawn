@@ -1,0 +1,178 @@
+<style>
+  .shopify-input-col{
+    width:25%;
+  }
+  .shopify-input-main-row{
+    display:flex
+  }
+  .shopify-input-col .shopify-input-featured-image img,.shopify-input-col .shopify-input-featured-image svg{
+    width: 100%;
+    height: auto;
+    object-fit: contain
+  }
+ .article-content p {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+  button.article__url {
+    padding: 10px 20px;
+    border: 0px;
+    border-radius: 3px;
+}
+  button.article__url a {
+    text-decoration: none;
+}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+  
+
+<div class="section-{{ section.id }} page-width">
+  <div class="shopify-input-main-con">
+    {% for block in section.blocks %}
+       {% case block.type %}
+         {% when 'article' %}
+            <div class="shopify-input-main-row shopify-article-main-row">
+                {% render 'shopify-article', article_card: block.settings.article %}
+            </div>
+         {% when 'product' %}
+            <div class="shopify-main-row shopify-product-mian-row">
+              <div class="shopify-input-col shopify-input-product-col">
+                  <div class="shopify-input-featured-image product-featured-image">
+                    {% if block.settings.product.featured_image != blank %}
+                        {{  block.settings.product.featured_image| image_url: width: 1500 | image_tag: loading: 'lazy', sizes: sizes, widths: widths }}
+                    {% else %}
+                        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {% endif %}
+                  </div>
+                  <div class="article-content">
+                    <h3>{% if block.settings.product.title != blank %}{{ block.settings.product.title }}{% else %} Product Title {% endif %}</h3>
+                    <p>{% if block.settings.product.description != blank %}{{ block.settings.product.description }}{% else %} Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis fermentum dolor, nec lobortis erat condimentum id. Cras congue vel lectus a rhoncus. Proin velit quam, iaculis ut hendrerit at, dapibus eget elit. Nullam finibus eget dolor vel hendrerit. Integer ut hendrerit est. Nunc in lorem eu metus vulputate blandit {% endif %}</p>
+                     <button class="article__url"><a href="{% if block.settings.product.url !=blank %}{{ block.settings.product.url }}{% else %}#{% endif %}">Read More</a></button>
+                  </div>
+              </div>
+            </div>
+           {% when 'Collection' %}
+           <a href="{% if block.settings.collection.url != blank %}{{ block.settings.collection.url }}{% else %}#{% endif %}">
+               <div class="shopify-main-row shopify-product-mian-row">
+                <div class="shopify-input-col shopify-input-product-col">
+                    <div class="shopify-input-featured-image product-featured-image">
+                      {% if block.settings.collection.image != blank %}
+                          {{  block.settings.collection.image| image_url: width: 1500 | image_tag: loading: 'lazy', sizes: sizes, widths: widths }}
+                      {% else %}
+                          {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </div>
+                    <div class="article-content">
+                      <h3>{% if block.settings.collection.title != blank %}{{ block.settings.collection.title }}{% else %} Collection name {% endif %}</h3>
+                    </div>
+                </div>
+              </div>
+           </a>
+         {% when 'Collection_list' %}
+         <ul class="collection-list">
+            
+          </ul>
+    {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Shopify input",
+    "settings": [
+      {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+    ],
+    "blocks":[
+      {
+        "name": "Article",
+        "type": "article",
+        "settings":[
+          {
+            "type": "article",
+            "id":"article",
+            "label":"Article" 
+          }
+          
+        ]
+      },
+      {
+        "name": "Product",
+        "type": "product",
+        "settings":[
+          {
+            "type": "product",
+            "id":"product",
+            "label":"Product" 
+          }
+          
+        ]
+      },
+      {
+        "name": "Collection",
+        "type": "Collection",
+        "settings":[
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+          
+        ]
+      },
+      {
+        "name": "Collection_list",
+        "type": "Collection_list",
+        "settings":[
+          {
+            "type": "collection_list",
+            "id": "collection_list",
+            "label": "Collections",
+            "limit": 4
+          }
+          
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name": "Shopify input"
+      }
+    ]
+  }
+{% endschema %}
+

@@ -1,0 +1,260 @@
+<style>
+      .swiper {
+      width: 100%;
+      height: 100%;
+    }
+   .mySwiper .swiper-slide img {
+    max-height: 125px;
+    max-width: 125px;
+}
+  .mySwiper.swiper-horizontal {
+    margin-top: 10px;
+}
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin:auto;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    body {
+      background: #000;
+      color: #000;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .mySwiper2 {
+      height: 80%;
+      width: 100%;
+    }
+
+    .mySwiper {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+      width: 125px !important;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  .cutom-main-product-left-con {
+    width: 65%;
+}
+  .feature-image-con{
+    display: flex;
+    justify-content:center;
+  }
+  .custom-main-product-row {
+    display: flex;
+}
+
+  .cutom-main-product-left-con .custom-product-feature-image {
+    width: 100%;
+    max-width: 500px;
+    object-fit: contain;
+    height: 100%;
+    border: 1px solid gray;
+}
+  .custom-main-product-right-con {
+    width: 35%;
+    padding-left: 30px;
+}
+  .custom-main-product-right-con-title h1{
+    color:{{ section.settings.heading_color}};
+  }
+  .custom-main-product-descritpion p{
+    color:{{ section.settings.description_color}};
+  }
+
+    .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+{% if product %}
+  <div class="custom-main-product-main-con page-width section-{{ section.id }}">
+     <div class="custom-main-product-row">
+        <div class="cutom-main-product-left-con">
+          <div class="feature-image-con">
+            </div>
+
+            <div class="product-images">
+               <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                <div class="swiper-wrapper">
+                {% for image in product.media %}
+                  <div class="swiper-slide">
+                    <img src="{{ image.src | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+                  </div>
+                {% endfor %}   
+                  
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+              </div>
+              <div thumbsSlider="" class="swiper mySwiper">
+                <div class="swiper-wrapper"> 
+                  {% for image in product.media %}
+                      <div class="swiper-slide">
+                        <img src="{{ image.src | img_url: 'master' }}" alt="{{ image.alt | escape }}">
+                      </div>
+                    {% endfor %}
+                </div>
+              </div>
+          
+              
+
+          </div>
+         </div>
+       <div class="custom-main-product-right-con">
+          {% for block_item in section.blocks %}
+            {% case block_item.type %}
+             
+                  
+             {% when 'title' %}
+               <div class="custom-main-product-right-con-title">
+                <h1>{{ product.title }} </h1> 
+               </div>
+           {% when "description" %}
+              <div class="custom-main-product-descritpion">
+                <p>{{  product.description }}</p>
+              </div>
+            {% endcase %}
+        {% endfor %}
+   </div>
+   </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+   <script>
+      var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+      });
+      var swiper2 = new Swiper(".mySwiper2", {
+        spaceBetween: 10,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        thumbs: {
+          swiper: swiper,
+        },
+      });
+    </script>
+{% endif %}
+
+{% schema %}
+{
+  	"name": "Custom main product",
+  	"class": "custom-main-product",
+  
+  	"settings": [
+      {
+        "type": "color",
+        "id":"heading_color",
+        "label": "Heading Color" 
+      },
+      {
+        "type": "color",
+        "id":"description_color",
+        "label": "Description Color" 
+      },
+      {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+    ],
+   "blocks": [
+     {
+       "name": "Custom title",
+       "type": "title",
+       "settings": []
+     },
+     {
+       "name": "Custom description",
+       "type": "description",
+       "settings": []
+     },
+     {
+       "name": "Custom feature image",
+       "type": "image",
+       "settings": []
+     }
+   ],
+  	
+  	"presets": [
+    	{
+      	"name": "Custom main product",
+        "blocks": [
+            {
+              "type": "image"
+            }
+          ]
+    	}
+       
+  	]
+}
+{% endschema %}
