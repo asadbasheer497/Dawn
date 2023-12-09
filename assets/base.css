@@ -2474,7 +2474,8 @@ product-info .loading-overlay:not(.hidden) ~ *,
 
 .header__heading-link .h2 {
   line-height: 1;
-  color: rgba(var(--color-foreground), 0.75);
+  /* color: rgba(var(--color-foreground), 0.75); */
+  color: red;
 }
 
 .header__heading-logo {
