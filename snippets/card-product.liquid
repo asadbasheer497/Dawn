@@ -60,10 +60,8 @@
                     {% assign otherProductTags = otherProduct.tags %}  
                      <input type="hidden" all_tags="{{ otherProductTags }}" first_tags="{{currentProductTags.first  }}" />
                     {% if otherProductTags contains currentProductTags.first %}      
-                       <span class="swatch {% if currentProductId == otherProduct.id %}active{% endif %}">
-                         <a href="{{ otherProduct.url }}" class="">
+                       <span product_url="{{ otherProduct.url }}" class="swatch {% if currentProductId == otherProduct.id %}active{% endif %}">
                            {{ otherProduct.featured_image | image_url: width: 50 | image_tag: widths: '300, 600,900,1200' }}
-                        </a>
                       </span>
                   {% endif %}
                 {% endfor %}
