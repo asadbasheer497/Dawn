@@ -1277,7 +1277,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
    document.querySelectorAll('.product__swatch').forEach(function (elem) {
     elem.addEventListener('click',function (single) {
-      console.log(single);
+      console.log(this);
     })
   })
     
