@@ -62,7 +62,7 @@
                     {% if otherProductTags contains currentProductTags.first %}      
                        <span class="swatch {% if currentProductId == otherProduct.id %}active{% endif %}">
                          <a href="{{ otherProduct.url }}" class="">
-                           {{ otherProduct.metafields.custom.color_swatch_image | image_url: width: 1300 | image_tag: widths: '300, 600,900,1200' }}
+                           {{ otherProduct.featured_image | image_url: width: 1300 | image_tag: widths: '300, 600,900,1200' }}
                         </a>
                       </span>
                   {% endif %}
