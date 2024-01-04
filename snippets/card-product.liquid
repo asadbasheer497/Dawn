@@ -60,6 +60,7 @@
                    {% for otherProduct in collections.all.products %}     
                     {% assign otherProductTags = otherProduct.tags %}  
                      all tags{{ otherProductTags }}
+                     <br>
                      first tags{{ currentProductTags.first }}
                     {% if otherProductTags contains currentProductTags.first %}      
                        <span class="swatch {% if currentProductId == otherProduct.id %}active{% endif %}">
