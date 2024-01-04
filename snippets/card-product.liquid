@@ -59,9 +59,7 @@
                   {% paginate collections.all.products by 2000 %}    
                    {% for otherProduct in collections.all.products %}     
                     {% assign otherProductTags = otherProduct.tags %}  
-                     all tags{{ otherProductTags }}
-                     <br>
-                     first tags{{ currentProductTags.first }}
+                     <input type="hidden" all_tags="{{ otherProductTags }}" first_tags="{{currentProductTags.first  }}" />
                     {% if otherProductTags contains currentProductTags.first %}      
                        <span class="swatch {% if currentProductId == otherProduct.id %}active{% endif %}">
                          <a href="{{ otherProduct.url }}" class="">
