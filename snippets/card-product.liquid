@@ -52,6 +52,26 @@
         class="card__inner test {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
+  <div class="product__variants">
+                <div class="jump color__swatch">
+                {% assign currentProductId = card_product.id %}
+                {% assign currentProductTags = card_product.tags %}
+                  {% paginate collections.all.products by 2000 %}    
+                   {% for otherProduct in collections.all.products %}     
+                    {% assign otherProductTags = otherProduct.tags %}         
+                    {% if otherProductTags contains currentProductTags.first %}      
+                       <span class="swatch {% if currentProductId == otherProduct.id %}active{% endif %}">
+                         <a href="{{ otherProduct.url }}" class="">
+                        {% if  otherProduct.metafields.custom.color_swatch_image != blank %}
+                           {{ otherProduct.metafields.custom.color_swatch_image | image_url: width: 1300 | image_tag: widths: '300, 600,900,1200' }}
+                         {% endif %}
+                        </a>
+                      </span>
+                  {% endif %}
+                {% endfor %}
+                {% endpaginate %}
+                </div>
+  </div>
         {%- if card_product.featured_media -%}
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
             <div class="media media--transparent media--hover-effect">
