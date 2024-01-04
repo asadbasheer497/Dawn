@@ -56,7 +56,6 @@
                 <div class="jump color__swatch">
                 {% assign currentProductId = card_product.id %}
                 {% assign currentProductTags = card_product.tags %}
-                  {% paginate collections.all.products by 2000 %}    
                    {% for otherProduct in collections.all.products %}     
                     {% assign otherProductTags = otherProduct.tags %}  
                      <input type="hidden" all_tags="{{ otherProductTags }}" first_tags="{{currentProductTags.first  }}" />
@@ -70,7 +69,6 @@
                       </span>
                   {% endif %}
                 {% endfor %}
-                {% endpaginate %}
                 </div>
   </div>
         {%- if card_product.featured_media -%}
