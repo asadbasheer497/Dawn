@@ -126,8 +126,8 @@
               </p>
             {%- when 'swatches' -%}
               <div class="swaches">
-                  {% assign swachdata = product.metafields.custom.swatch_group.value %}
-                {% if swachdata != blank %}
+                  {% assign swachdatalimited = product.metafields.custom.swatch_group.value %}
+                {% if swachdatalimited != blank %}
                    {% if swachdatalimited != blank %}<span class="color_swatch-label">Core</span>{% endif %}
                   <ul class="swatch-view_list on_product">
                     {% for item in swachdata.swatch_group_product.value  %}
