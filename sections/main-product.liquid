@@ -124,6 +124,10 @@
               >
                 {{- block.settings.text -}}
               </p>
+            {%- when 'swatches' -%}
+              <div class="swaches">
+                swatches
+              </div>
             {%- when 'title' -%}
               <div class="product__title" {{ block.shopify_attributes }}>
                 <h1>{{ product.title | escape }}</h1>
