@@ -126,7 +126,27 @@
               </p>
             {%- when 'swatches' -%}
               <div class="swaches">
-                swatches
+                  {% assign swachdata = product.metafields.custom.swatch_group.value %}
+                {% if swachdata != blank %}
+                   {% if swachdatalimited != blank %}<span class="color_swatch-label">Core</span>{% endif %}
+                  <ul class="swatch-view_list on_product">
+                    {% for item in swachdata.swatch_group_product.value  %}
+                      
+                      {% for itemlimited in swachdatalimited.products.value  %}
+                        {% if itemlimited.id == item.id %}
+                          {% assign hidden = true %}
+                          {% break %}
+                        {% else %}
+                          {% assign hidden = false %}
+                        {% endif %}
+                      {% endfor %}
+                      
+                      <li class="swatch-view-item{% if product.id == item.id  %} active{% endif %}{% if item.available == false  %} unavailable{% endif %}{% if hidden %} hidden{% endif %}" style="width:30px; height:30px;">
+                        <a class="" href="{{ item.url }}" {% unless item.metafields.custom.swatch_image != blank  %}style="{% if item.metafields.custom.swatch_color.value != blank %}background-color:{{ item.metafields.custom.swatch_color.value }}{% endif %}"{% endunless %} {% if product.available == false  %}disabled{% endif %}>{% if item.metafields.custom.swatch_image != blank  %}<img src="{{ item.metafields.custom.swatch_image | image_url  }}" width="30" height="30"/>{% endif %} </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
               </div>
             {%- when 'title' -%}
               <div class="product__title" {{ block.shopify_attributes }}>
