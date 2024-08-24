@@ -962,7 +962,6 @@ class VariantSelects extends HTMLElement {
   onVariantChange() {
     this.updateOptions();
     this.updateMasterId();
-    console.log("Master Id: "+this.updateMasterId());
     this.toggleAddButton(true, '', false);
     this.updatePickupAvailability();
     this.removeErrorMessage();
@@ -986,7 +985,6 @@ class VariantSelects extends HTMLElement {
   }
 
   updateMasterId() {
-    console.log(this.getVariantData());
     this.currentVariant = this.getVariantData().find((variant) => {
       console.log(variant.options);
       return !variant.options
