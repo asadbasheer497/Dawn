@@ -1079,11 +1079,11 @@ class VariantSelects extends HTMLElement {
     if (productForm) productForm.handleErrorMessage();
   }
 
-const requestedVariantId = this.currentVariant.id;
-const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
-console.log(`${this.dataset.url}?variant=${requestedVariantId}&section_id=${sectionId}`);
-
-
+  renderProductInfo() {
+    const requestedVariantId = this.currentVariant.id;
+    const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
+    console.log("SECTION ID"+${this.dataset.url});
+    // console.log(`${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section`);
 
     fetch(
       `${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section
