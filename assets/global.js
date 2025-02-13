@@ -1459,19 +1459,19 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
 
 
       
- (function() {
+(function() {
     const originalFetch = window.fetch;
 
     window.fetch = function(url, options) {
-        console.log("Intercepted Fetch Call: ", url); // Debugging log
+        // Ensure URL is always a string
+        const requestUrl = (typeof url === 'string') ? url : url.url;
+
+        console.log("Intercepted Fetch Call:", requestUrl); // Debugging log
 
         return originalFetch.apply(this, arguments).then(response => {
-            // Convert URL to string if it's a Request object
-            const requestUrl = typeof url === 'string' ? url : url.url;
-
             if (requestUrl.includes('/cart/add.js') || requestUrl.includes('/cart/change.js') || requestUrl.includes('/cart/update.js')) {
                 console.log('Cart API call detected:', requestUrl);
-                handleCartChange(); // Call your function here
+                // handleCartChange(); // Call function when cart updates
             }
             
             return response;
@@ -1481,8 +1481,29 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
     };
 })();
 
-// Example function to handle cart changes
-function handleCartChange() {
-    console.log("Cart has been modified!");
-}
+// function updateAnnouncementBar() {
+//     fetch('/?section_id=announcement-bar')
+//     .then(response => response.text())
+//     .then(html => {
+//         // Create a temporary DOM parser
+//         let parser = new DOMParser();
+//         let doc = parser.parseFromString(html, 'text/html');
+        
+//         // Find the updated announcement bar content
+//         let newContent = doc.querySelector('#shopify-section-announcement-bar');
+
+//         if (newContent) {
+//             // Replace existing announcement bar with new content
+//             document.querySelector('#shopify-section-announcement-bar').innerHTML = newContent.innerHTML;
+//             console.log("Announcement bar updated successfully!");
+//         } else {
+//             console.error("Updated announcement bar content not found.");
+//         }
+//     })
+//     .catch(error => console.error("Error fetching announcement bar:", error));
+// }
+
+// // Run the function every 30 seconds (or call it when needed)
+// setInterval(updateAnnouncementBar, 30000);
+
 
