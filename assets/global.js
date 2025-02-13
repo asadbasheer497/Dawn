@@ -1082,7 +1082,7 @@ class VariantSelects extends HTMLElement {
   renderProductInfo() {
     const requestedVariantId = this.currentVariant.id;
     const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
-    // console.log("SECTION ID"+${this.dataset.url});
+    console.log("SECTION ID"+${this.dataset.url});
     // console.log(`${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section`);
 
     fetch(
@@ -1475,7 +1475,7 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
                 requestUrl.includes('/cart/update')) {
                 
                 console.log('Cart API call detected:', requestUrl);
-                handleCartChange(); // Call function when cart updates
+                handleCartChange(); 
             }
             
             return response;
