@@ -1082,7 +1082,7 @@ class VariantSelects extends HTMLElement {
   renderProductInfo() {
     const requestedVariantId = this.currentVariant.id;
     const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
-    console.log("SECTION ID"+${this.dataset.url});
+    // console.log("SECTION ID"+${this.dataset.url});
     // console.log(`${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section`);
 
     fetch(
@@ -1459,16 +1459,16 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
 
 
       
-//      (function() {
-//     const originalFetch = window.fetch;
-//        console.log("originalFetch"+originalFetch);
-//     window.fetch = function(url, options) {
-//         return originalFetch.apply(this, arguments).then(response => {
-//             if (url.includes('/cart/add.js') || url.includes('/cart/change.js') || url.includes('/cart/update.js')) {
-//                 console.log('Cart API call detected:', url);
-//                 // handleCartChange();
-//             }
-//             return response;
-//         });
-//     };
-// })();
+     (function() {
+    const originalFetch = window.fetch;
+       console.log("originalFetch"+originalFetch);
+    window.fetch = function(url, options) {
+        return originalFetch.apply(this, arguments).then(response => {
+            if (url.includes('/cart/add.js') || url.includes('/cart/change.js') || url.includes('/cart/update.js')) {
+                console.log('Cart API call detected:', url);
+                // handleCartChange();
+            }
+            return response;
+        });
+    };
+})();
