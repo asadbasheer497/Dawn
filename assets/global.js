@@ -1459,16 +1459,30 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
 
 
       
-     (function() {
+ (function() {
     const originalFetch = window.fetch;
-       console.log("originalFetch"+originalFetch);
+
     window.fetch = function(url, options) {
+        console.log("Intercepted Fetch Call: ", url); // Debugging log
+
         return originalFetch.apply(this, arguments).then(response => {
-            if (url.includes('/cart/add.js') || url.includes('/cart/change.js') || url.includes('/cart/update.js')) {
-                console.log('Cart API call detected:', url);
-                // handleCartChange();
+            // Convert URL to string if it's a Request object
+            const requestUrl = typeof url === 'string' ? url : url.url;
+
+            if (requestUrl.includes('/cart/add.js') || requestUrl.includes('/cart/change.js') || requestUrl.includes('/cart/update.js')) {
+                console.log('Cart API call detected:', requestUrl);
+                handleCartChange(); // Call your function here
             }
+            
             return response;
+        }).catch(error => {
+            console.error("Fetch error detected:", error);
         });
     };
 })();
+
+// Example function to handle cart changes
+function handleCartChange() {
+    console.log("Cart has been modified!");
+}
+
