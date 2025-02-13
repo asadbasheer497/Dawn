@@ -1469,9 +1469,13 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
         console.log("Intercepted Fetch Call:", requestUrl); // Debugging log
 
         return originalFetch.apply(this, arguments).then(response => {
-            if (requestUrl.includes('/cart/add.js') || requestUrl.includes('/cart/change.js') || requestUrl.includes('/cart/update.js')) {
+            // Detect any Shopify cart API calls (with or without .js)
+            if (requestUrl.includes('/cart/add') || 
+                requestUrl.includes('/cart/change') || 
+                requestUrl.includes('/cart/update')) {
+                
                 console.log('Cart API call detected:', requestUrl);
-                // handleCartChange(); // Call function when cart updates
+                handleCartChange(); // Call function when cart updates
             }
             
             return response;
@@ -1480,6 +1484,15 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
         });
     };
 })();
+
+// Function to handle cart changes
+function handleCartChange() {
+    console.log("Cart has been modified!");
+    updateAnnouncementBar(); // Fetch updated announcement bar
+}
+
+
+
 
 // function updateAnnouncementBar() {
 //     fetch('/?section_id=announcement-bar')
