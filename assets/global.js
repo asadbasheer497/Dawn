@@ -1475,7 +1475,7 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
                 requestUrl.includes('/cart/update')) {
                 
                 console.log('Cart API call detected:', requestUrl);
-                handleCartChange(); 
+                updateAnnouncementBar(); 
             }
             
             return response;
@@ -1485,36 +1485,31 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
     };
 })();
 
-// Function to handle cart changes
-function handleCartChange() {
-    console.log("Cart has been modified!");
-    updateAnnouncementBar(); // Fetch updated announcement bar
-}
 
 
 
 
-// function updateAnnouncementBar() {
-//     fetch('/?section_id=announcement-bar')
-//     .then(response => response.text())
-//     .then(html => {
-//         // Create a temporary DOM parser
-//         let parser = new DOMParser();
-//         let doc = parser.parseFromString(html, 'text/html');
+function updateAnnouncementBar() {
+    fetch('/?section_id=announcement-bar')
+    .then(response => response.text())
+    .then(html => {
+        // Create a temporary DOM parser
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(html, 'text/html');
         
-//         // Find the updated announcement bar content
-//         let newContent = doc.querySelector('#shopify-section-announcement-bar');
+        // Find the updated announcement bar content
+        let newContent = doc.querySelector('#shopify-section-announcement-bar');
 
-//         if (newContent) {
-//             // Replace existing announcement bar with new content
-//             document.querySelector('#shopify-section-announcement-bar').innerHTML = newContent.innerHTML;
-//             console.log("Announcement bar updated successfully!");
-//         } else {
-//             console.error("Updated announcement bar content not found.");
-//         }
-//     })
-//     .catch(error => console.error("Error fetching announcement bar:", error));
-// }
+        if (newContent) {
+            // Replace existing announcement bar with new content
+            document.querySelector('#shopify-section-announcement-bar').innerHTML = newContent.innerHTML;
+            console.log("Announcement bar updated successfully!");
+        } else {
+            console.error("Updated announcement bar content not found.");
+        }
+    })
+    .catch(error => console.error("Error fetching announcement bar:", error));
+}
 
 // // Run the function every 30 seconds (or call it when needed)
 // setInterval(updateAnnouncementBar, 30000);
