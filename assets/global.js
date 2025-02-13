@@ -1461,6 +1461,7 @@ var elementsWithClass = document.querySelectorAll("." + targetClassName);
       
      (function() {
     const originalFetch = window.fetch;
+       console.log("originalFetch"+originalFetch);
     window.fetch = function(url, options) {
         return originalFetch.apply(this, arguments).then(response => {
             if (url.includes('/cart/add.js') || url.includes('/cart/change.js') || url.includes('/cart/update.js')) {
