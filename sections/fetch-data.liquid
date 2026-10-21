@@ -63,12 +63,7 @@
         //               <div class='upselling-content'>
         //                   <h3 class='upseling-title'>{{ settings.upselling-produt-1.title }}</h3>
         //                   <div class='upselling-price'>
-        //                       <span class='upselling-compared-price'>{%- render 'price',
-        //                               product: settings.upselling-produt-1,
-        //                               use_variant: true,
-        //                               show_badges: true,
-        //                               price_class: 'price--large'
-        //                             -%}</span>
+        //                       <span class='upselling-compared-price'>{%- render 'price', product: settings.upselling-produt-1, use_variant: true, show_badges: true, price_class: 'price--large' -%}</span>
         //                       <span class='upselling-sale-price'></span>   
         //                   </div>
         //                   <div class='upselling-add-to-card'>
@@ -103,3 +98,20 @@
   }
 {% endschema %}
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'price',
+            //                               product: settings.upselling-produt-1,
+            //                               use_variant: true,
+            //                               show_badges: true,
+            //                               price_class: 'price--large'
+            //                             -%}
+  to: "{%- render 'price', product: settings.upselling-produt-1, use_variant: true,
+    show_badges: true, price_class: 'price--large' -%}"
+  position: 2113..2240
+{% endcomment %}
